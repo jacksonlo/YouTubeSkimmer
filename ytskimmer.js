@@ -78,6 +78,8 @@ function getUrlVars() {
 }
 
 $(document).ready(function() {
+	var muteOn = true;
+
 	//Topbar play-pause button
 	$("#play-pause-button").on('click', function() {
 		var current = $(this).text();
@@ -114,11 +116,13 @@ $(document).ready(function() {
 	$("#mute-button").on('click', function() {
 		var current = $(this).text();
 		if(current == "Mute") {
+			muteOn = true;
 			for(var i = 0; i < n; ++i) {
 				players[i].mute();
 			}
 			$(this).text("Unmute");
 		} else {
+			muteOn = false;
 			for(var i = 0; i < n; ++i) {
 				players[i].unMute();
 			}
@@ -135,11 +139,15 @@ $(document).ready(function() {
 
 	//Mute on hover video
 	$(document).on('mouseenter', 'iframe', function() {
+		if(!muteOn) return;
+
 		var index = $(this).attr('index');
 		players[index].unMute();
 	});
 
 	$(document).on('mouseleave', 'iframe', function() {
+		if(!muteOn) return;
+
 		var index = $(this).attr('index');
 		players[index].mute();
 	});
