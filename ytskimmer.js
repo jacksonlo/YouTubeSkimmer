@@ -72,7 +72,7 @@ function onPlayerReady(event) {
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-	vars[key] = value;
+		vars[key] = value;
 	});
 	return vars;
 }
@@ -103,4 +103,10 @@ $(document).ready(function() {
 	});
 
 	//Topbar quality selector dropdown
+	$("#quality-dropdown").on('click', 'li', function () {
+		var quality = $(this).attr('value');
+		for(var i = 0; i < n; ++i) {
+			players[i].setPlaybackQuality(quality);
+		}
+	});
 });
