@@ -18,7 +18,7 @@ function onYouTubeIframeAPIReady() {
 		players[i] = new YT.Player('player'+i, {
 			height: height,
 			width: width,
-			videoId: getVars['v'] ? getVars['v'] : 'NRAAn1xI2aM',
+			videoId: getVars['v'] ? getVars['v'] : '_L9WuoFxy-8',
 			playerVars: { 'autoplay': 0, 'controls': controls },
 			events: {
 				'onReady': onPlayerReady,
