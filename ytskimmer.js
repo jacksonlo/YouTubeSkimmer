@@ -2,19 +2,19 @@
 var getVars = getUrlVars();
 var players = new Array();
 var videosReady = 0;
-var speed = getVars['speed'] ? getVars['speed']/100 : 2;
+var speed = getVars['speed'] ? getVars['speed']/100 : 1;
 var mute = getVars['mute'] ? getVars['mute'] : 1;
 var n = getVars['n'] ? getVars['n'] : 4;
 var height = getVars['h'] ? getVars['h'] : '390';
 var width = getVars['w'] ? getVars['w'] : '640';
 var quality = getVars['quality'] ? getVars['quality'] : 'default'; /* small, medium, large, hd720, hd1080, highres or default */
-var controls = getVars['controls'] ? getVars['controls'] : 1;
+var controls = getVars['controls'] ? getVars['controls'] : 0;
 var v = getVars['v'];
 
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
 	if(v === undefined) return;
-	
+
 	var videoContainer = $("#videos");
 	for(var i = 0; i < n; ++i) {
 		$("#videos").append("<div id='player"+i+"' index='"+i+"'></div>");

@@ -16,7 +16,7 @@ Great for sport highlights, powerpoint videos, long videos or if you just want a
 
 **v**: Video ID
 
-**speed**: Playback speed of video times 100, ie. Speed 0.5=> ?speed=50, or Speed 1.25=> ?speed=125 etc..., default is 200 (2x speed)
+**speed**: Playback speed of video times 100, ie. Speed 0.5=> ?speed=50, or Speed 1.25=> ?speed=125 etc..., default is 100 (1x speed)
 
 **mute**: Initial mute or unmute status of videos, 1 for mute, 0 for unmuted, default is 1
 
