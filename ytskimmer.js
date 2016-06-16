@@ -3,7 +3,7 @@ var getVars = getUrlVars();
 var players = new Array();
 var videosReady = 0;
 var speed = getVars['speed'] ? getVars['speed']/100 : 2;
-var mute = getVars['mute'] ? getVars['mute'] : 0;
+var mute = getVars['mute'] ? getVars['mute'] : 1;
 var n = getVars['n'] ? getVars['n'] : 4;
 var height = getVars['h'] ? getVars['h'] : '390';
 var width = getVars['w'] ? getVars['w'] : '640';
@@ -14,7 +14,7 @@ var controls = getVars['controls'] ? getVars['controls'] : 1;
 function onYouTubeIframeAPIReady() {
 	var videoContainer = $("#videos");
 	for(var i = 0; i < n; ++i) {
-		$("#videos").append("<div id='player"+i+"'></div>");
+		$("#videos").append("<div id='player"+i+"' index='"+i+"'></div>");
 		players[i] = new YT.Player('player'+i, {
 			height: height,
 			width: width,
@@ -82,15 +82,15 @@ $(document).ready(function() {
 	$("#play-pause-button").on('click', function() {
 		var current = $(this).text();
 		if(current == "Play") {
-			$(this).text('Pause');
-			for(var i = 0; i < n; ++i) {
-				players[i].pauseVideo();
-			}
-		} else {
-			$(this).text('Play');
 			for(var i = 0; i < n; ++i) {
 				players[i].playVideo();
 			}
+			$(this).text('Pause');
+		} else {
+			for(var i = 0; i < n; ++i) {
+				players[i].pauseVideo();
+			}
+			$(this).text('Play');
 		}
 	});
 
@@ -108,5 +108,39 @@ $(document).ready(function() {
 		for(var i = 0; i < n; ++i) {
 			players[i].setPlaybackQuality(quality);
 		}
+	});
+
+	//Mute button
+	$("#mute-button").on('click', function() {
+		var current = $(this).text();
+		if(current == "Mute") {
+			for(var i = 0; i < n; ++i) {
+				players[i].mute();
+			}
+			$(this).text("Unmute");
+		} else {
+			for(var i = 0; i < n; ++i) {
+				players[i].unMute();
+			}
+			$(this).text("Mute");
+		}
+	});
+
+	//Toggle controls button
+	// $("#toggle-controls-button").on('click', function() {
+	// 	for(var i = 0; i < n; ++i) {
+	// 		players[i].
+	// 	}
+	// });
+
+	//Mute on hover video
+	$(document).on('mouseenter', 'iframe', function() {
+		var index = $(this).attr('index');
+		players[index].unMute();
+	});
+
+	$(document).on('mouseleave', 'iframe', function() {
+		var index = $(this).attr('index');
+		players[index].mute();
 	});
 });
