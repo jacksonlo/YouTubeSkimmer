@@ -10,6 +10,7 @@ var width = getVars['w'] ? getVars['w'] : '640';
 var quality = getVars['quality'] ? getVars['quality'] : 'default'; /* small, medium, large, hd720, hd1080, highres or default */
 var controls = getVars['controls'] ? getVars['controls'] : 0;
 var v = getVars['v'];
+var duration = 0;
 
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
@@ -21,7 +22,7 @@ function onYouTubeIframeAPIReady() {
 				height: height,
 				width: width,
 				videoId: getVars['v'] ? getVars['v'] : '_L9WuoFxy-8',
-				playerVars: { 'autoplay': 0, 'controls': controls },
+				playerVars: { 'autoplay': 0, 'controls': controls, 'rel': 0 },
 				events: {
 					'onReady': onPlayerReady,
 					'onStateChange': onPlayerStateChange
@@ -41,20 +42,10 @@ function onYouTubeIframeAPIReady() {
 
 	//Topbar play-pause button
 	$("#play-pause-button").on('click', function() {
-		var title = $(this).find(".media-title");
-		var icon = $(this).find(".media-icon");
-		if(title.text() == "Play") {
-			for(var i = 0; i < n; ++i) {
-				players[i].playVideo();
-			}
-			title.text('Pause');
-			icon.attr('src', 'images/pause.png');
+		if($(this).find('.media-title').text() == "Play") {
+			setPauseReady();
 		} else {
-			for(var i = 0; i < n; ++i) {
-				players[i].pauseVideo();
-			}
-			title.text('Play');
-			icon.attr('src', 'images/play.png');
+			setPlayReady();
 		}
 	});
 
@@ -126,18 +117,26 @@ function onYouTubeIframeAPIReady() {
 // On player state change method
 var done = false;
 var progressInterval;
+var initialized = false;
+var vidoesDone = false;
 function onPlayerStateChange(event) {
+	if(event.data == YT.PlayerState.PLAYING) {
+		setPauseReady(true);
+	}
+
 	if (event.data == YT.PlayerState.PLAYING && !done) {
-		initialize();
+		if(!initialized) {
+			initialize();
+			initialized = true;
+		}
 		done = true;
 	} else if (event.data == YT.PlayerState.ENDED) {
 		//Stop all videos
-		for(var i = 0; i < n; ++i) {
-			//Stop after 2 seconds to account for division
-			setTimeout(stopVideo(players[i]), 2000);
-		}
+		//Stop after 2 seconds to account for division
+		setTimeout(stopVideo, 2000);
+		setTimeout(function() { setPlayReady(true) }, 2000);
 		videosReady = 0;
-		clearInterval(progressInterval);
+		//clearInterval(progressInterval);
 	} else if (event.data == YT.PlayerState.CUED && !done) {
 		videosReady++;
 		if(videosReady == n) {
@@ -147,16 +146,19 @@ function onPlayerStateChange(event) {
 		}
 	}
 }
-function stopVideo(player) {
-	player.stopVideo();
+function stopVideo() {
+	for(var i = 0; i < n; ++i) {
+		players[i].stopVideo();
+	}
+	videosDone = true;
 }
 
 //On player ready method, set's video settings
 function onPlayerReady(event) {
-	event.target.setPlaybackRate(speed); // This is what you're looking for
-	var length = Math.floor(event.target.getDuration()/n);
+	event.target.setPlaybackRate(speed);
+	duration = Math.floor(event.target.getDuration()/n);
 	var index = players.indexOf(event.target);
-	event.target.seekTo(length*index, false);
+	event.target.seekTo(duration*index, false);
 	event.target.setPlaybackQuality(quality);
 
 	//Progress bar
@@ -187,7 +189,6 @@ function youtube_parser(url){
 function initialize() {
 	//Progress bar
 	$("#progress-bar").on("change mouseup", function() {
-		var duration = players[0].getDuration()/n;
 		var value = $(this).val();
 		for(var i = 0; i < n; ++i) {
 			var newTime = Number(i*duration) + Number(value);
@@ -213,4 +214,40 @@ function initialize() {
 		var index = $(this).attr('index');
 		players[index].mute();
 	});
+}
+
+function setPlayReady(justIcons) {
+	justIcons = justIcons || false;
+
+	var button = $("#play-pause-button");
+	var title = button.find(".media-title");
+	var icon = button.find(".media-icon");	
+
+	if(!justIcons) {
+		for(var i = 0; i < n; ++i) {
+			players[i].pauseVideo();
+		}
+	}
+	title.text('Play');
+	icon.attr('src', 'images/play.png');
+}
+
+function setPauseReady(justIcons) {
+	justIcons = justIcons || false;
+
+	var button = $("#play-pause-button");
+	var title = button.find(".media-title");
+	var icon = button.find(".media-icon");	
+
+	if(!justIcons) {
+		for(var i = 0; i < n; ++i) {
+			if(videosDone) {
+				videosReady = n;
+				players[i].seekTo(i*duration, false);
+			}
+			players[i].playVideo();
+		}
+	}
+	title.text('Pause');
+	icon.attr('src', 'images/pause.png');
 }
