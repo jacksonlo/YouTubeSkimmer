@@ -95,6 +95,15 @@ function onYouTubeIframeAPIReady() {
 		input.val(youtube_parser(input.val()));
 	});
 
+	//Volume slider
+	$("#volume-slider").on("change mousemove", function() {
+		var volume = $(this).val();
+		for(var i = 0; i < n; ++i) {
+			players[i].setVolume(volume);
+		}
+		$("#volume-value").text(volume);
+	});
+
 	//Mute on hover video
 	$(document).on('mouseenter', 'iframe', function() {
 		if(!muteOn) return;
@@ -160,7 +169,7 @@ function getUrlVars() {
 }
 
 function youtube_parser(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    return (match&&match[7].length==11)? match[7] : false;
+	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+	var match = url.match(regExp);
+	return (match&&match[7].length==11)? match[7] : false;
 }

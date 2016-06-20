@@ -5,3 +5,13 @@ body {
 #videoContainer {
 	text-align: center;
 }
+
+.volume {
+	color: #9d9d9d;
+	text-align: center;
+	margin-top:15px;
+}
+
+.volume:hover {
+	color: #FFFFFF;
+}
