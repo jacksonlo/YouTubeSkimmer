@@ -30,19 +30,31 @@ function onYouTubeIframeAPIReady() {
 		}
 	}
 
+	//Logo for fun
+	$("#logo").on('mouseenter', function() {
+		$(this).attr('src', 'images/logo.gif');
+	});
+
+	$("#logo").on("mouseleave", function() {
+		$(this).attr('src', 'images/logo.png');
+	});
+
 	//Topbar play-pause button
 	$("#play-pause-button").on('click', function() {
-		var current = $(this).text();
-		if(current == "Play") {
+		var title = $(this).find(".media-title");
+		var icon = $(this).find(".media-icon");
+		if(title.text() == "Play") {
 			for(var i = 0; i < n; ++i) {
 				players[i].playVideo();
 			}
-			$(this).text('Pause');
+			title.text('Pause');
+			icon.attr('src', 'images/pause.png');
 		} else {
 			for(var i = 0; i < n; ++i) {
 				players[i].pauseVideo();
 			}
-			$(this).text('Play');
+			title.text('Play');
+			icon.attr('src', 'images/play.png');
 		}
 	});
 
@@ -64,19 +76,22 @@ function onYouTubeIframeAPIReady() {
 
 	//Mute button
 	$("#mute-button").on('click', function() {
-		var current = $(this).text();
-		if(current == "Mute") {
+		var title = $(this).find(".media-title");
+		var icon = $(this).find(".media-icon");
+		if(title.text() == "Mute") {
 			muteOn = true;
 			for(var i = 0; i < n; ++i) {
 				players[i].mute();
 			}
-			$(this).text("Unmute");
+			title.text("Unmute");
+			icon.attr('src', "images/mute.png");
 		} else {
 			muteOn = false;
 			for(var i = 0; i < n; ++i) {
 				players[i].unMute();
 			}
-			$(this).text("Mute");
+			title.text("Mute");
+			icon.attr('src', "images/unmute.png");
 		}
 	});
 

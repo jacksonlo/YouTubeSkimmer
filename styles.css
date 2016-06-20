@@ -6,22 +6,43 @@ body {
 	text-align: center;
 }
 
-.volume {
+.media-control {
 	color: #9d9d9d;
 	text-align: center;
-	margin-top:15px;
+	cursor: pointer;
 }
 
-.volume:hover {
+.media-control:hover {
 	color: #FFFFFF;
 }
 
 #progress-bar {
 	margin-top: 20px;
-	width: 500px;
+	width: 350px;
 	margin-right: 40px;
 }
 
-.dropdown-menu li.active {
-	background-color: #AF90D4;
+#volume-slider {
+	width: 100px;
+}
+
+.media-icon {
+	height: 30px;
+	margin-top: 5px;
+}
+.nav > li {
+	min-width: 100px;
+	text-align: center;
+}
+
+.media-title {
+	margin-top: 5px;
+}
+
+.media-control.active {
+	background-color: #000000;
+}
+
+#logo {
+	margin-top: -15px;
 }

@@ -21,14 +21,20 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		  </button>
-		  <a class="navbar-brand" href="#">YT Skimmer</a>
+		  <a class="navbar-brand" href="index.html"><img id="logo" src="images/logo.png"></a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		  <ul class="nav navbar-nav">
-			<li class="active"><a id="play-pause-button" href="#">Pause <span class="sr-only">(current)</span></a></li>
-			<li><a id="mute-button" href="#">Unmute</a></li>
+			<li id="play-pause-button" class="active media-control">
+				<div class="media-title">Pause</div>
+				<img class="media-icon" src="images/pause.png">
+			</li>
+			<li id="mute-button" class="media-control">
+				<div class="media-title">Unmute</div>
+				<img class="media-icon" src="images/mute.png">
+			</li>
 			<li class="dropdown">
 			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Speed <span class="caret"></span></a>
 			  <ul id="speed-dropdown" class="dropdown-menu">
@@ -40,7 +46,9 @@
 				<li value="2"><a href="#">2</a></li>
 			  </ul>
 			</li>
-			<li><div class="volume">Volume: <span id="volume-value">100</span><input id="volume-slider" value="100" type="range" min="0" max="100"></div></li>
+			<li class="media-control">
+				<div class="media-title">Volume: <span id="volume-value">100</span></div>
+				<div><input id="volume-slider" value="100" type="range" min="0" max="100"></div></li>
 		  </ul>
 		  <form id="video-form" class="navbar-form navbar-left" role="search" action="index.html" method="GET">
 			<div class="form-group">
