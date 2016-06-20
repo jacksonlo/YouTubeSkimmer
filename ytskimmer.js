@@ -87,6 +87,11 @@ function onYouTubeIframeAPIReady() {
 	// 	}
 	// });
 
+	//Quality and Speed dropdowns
+	$(".dropdown-menu li").on('click', function() {
+		$(this).addClass('active').siblings().removeClass('active');
+	});
+
 	//Submit form for new video
 	$("#video-form").on('submit', function() {
 		var input = $(this).find('[name="v"]');
