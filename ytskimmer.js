@@ -13,21 +13,21 @@ var v = getVars['v'];
 
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
-	if(v === undefined) return;
-
-	var videoContainer = $("#videos");
-	for(var i = 0; i < n; ++i) {
-		$("#videos").append("<div id='player"+i+"' index='"+i+"'></div>");
-		players[i] = new YT.Player('player'+i, {
-			height: height,
-			width: width,
-			videoId: getVars['v'] ? getVars['v'] : '_L9WuoFxy-8',
-			playerVars: { 'autoplay': 0, 'controls': controls },
-			events: {
-				'onReady': onPlayerReady,
-				'onStateChange': onPlayerStateChange
-			}
-		});
+	if(!(v === undefined)) {
+		var videoContainer = $("#videos");
+		for(var i = 0; i < n; ++i) {
+			$("#videos").append("<div id='player"+i+"' index='"+i+"'></div>");
+			players[i] = new YT.Player('player'+i, {
+				height: height,
+				width: width,
+				videoId: getVars['v'] ? getVars['v'] : '_L9WuoFxy-8',
+				playerVars: { 'autoplay': 0, 'controls': controls },
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange
+				}
+			});
+		}
 	}
 
 	var muteOn = true;
