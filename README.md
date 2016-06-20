@@ -4,12 +4,13 @@ Enhanced Video controls for watching/skimming over youtube videos. YTSkimmer all
 Great for sport highlights, powerpoint videos, long videos or if you just want a quick overview of what's in the video (ie. skimming the video!)
 
 ##Basic Usage
-1. Open index.html and enter the video id into the searchbox and press submit.
-2. Press Play/Pause at the Topbar to pause or resume all videos.
-3. Hover over a video to hear the sound for that video since all videos will be muted by default.
-4. Press Mute/Unmute at the Topbar to mute or unmute all videos. Note, when Muted there is the hover for sound feature.
-5. Change current videos' speed by selecting from the speed dropdown in the topbar.
-6. Change current videos' quality by selecting from the quality dropdown in the topbar.
+1. Go to https://jacksonlo.github.io/YouTubeSkimmer/index.html or download and open index.html
+2. Enter the youtube url into the searchbox and press submit.
+3. Press Play/Pause at the Topbar to pause or resume all videos.
+4. Hover over a video to hear the sound for that video since all videos will be muted by default.
+5. Press Mute/Unmute at the Topbar to mute or unmute all videos. Note, when Muted there is the hover for sound feature.
+6. Change current videos' speed by selecting from the speed dropdown in the topbar.
+7. Change current videos' quality by selecting from the quality dropdown in the topbar.
 
 ##Advanced Usage Parameters
 ####Get Parameters

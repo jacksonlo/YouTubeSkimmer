@@ -89,9 +89,10 @@ function onYouTubeIframeAPIReady() {
 	// 	}
 	// });
 
-	//Submit button for new video
-	$("#submit-button").on('click', function() {
-		window.location = 'index.html?v='+$("#video-search").val();
+	//Submit form for new video
+	$("#video-form").on('submit', function() {
+		var input = $(this).find('[name="v"]');
+		input.val(youtube_parser(input.val()));
 	});
 
 	//Mute on hover video
@@ -156,4 +157,10 @@ function getUrlVars() {
 		vars[key] = value;
 	});
 	return vars;
+}
+
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
 }
