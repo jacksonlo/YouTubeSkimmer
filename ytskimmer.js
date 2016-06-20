@@ -11,6 +11,7 @@ var quality = getVars['quality'] ? getVars['quality'] : 'default'; /* small, med
 var controls = getVars['controls'] ? getVars['controls'] : 0;
 var v = getVars['v'];
 var duration = 0;
+var videosDone = false;
 
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
