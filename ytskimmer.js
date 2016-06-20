@@ -30,8 +30,6 @@ function onYouTubeIframeAPIReady() {
 		}
 	}
 
-	var muteOn = true;
-
 	//Topbar play-pause button
 	$("#play-pause-button").on('click', function() {
 		var current = $(this).text();
@@ -103,28 +101,14 @@ function onYouTubeIframeAPIReady() {
 		}
 		$("#volume-value").text(volume);
 	});
-
-	//Mute on hover video
-	$(document).on('mouseenter', 'iframe', function() {
-		if(!muteOn) return;
-
-		var index = $(this).attr('index');
-		players[index].unMute();
-	});
-
-	$(document).on('mouseleave', 'iframe', function() {
-		if(!muteOn) return;
-
-		var index = $(this).attr('index');
-		players[index].mute();
-	});
 }
 
 // On player state change method
 var done = false;
+var progressInterval;
 function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING && !done) {
-		// setTimeout(stopVideo, 6000);
+		initialize();
 		done = true;
 	} else if (event.data == YT.PlayerState.ENDED) {
 		//Stop all videos
@@ -133,6 +117,7 @@ function onPlayerStateChange(event) {
 			setTimeout(stopVideo(players[i]), 2000);
 		}
 		videosReady = 0;
+		clearInterval(progressInterval);
 	} else if (event.data == YT.PlayerState.CUED && !done) {
 		videosReady++;
 		if(videosReady == n) {
@@ -153,6 +138,11 @@ function onPlayerReady(event) {
 	var index = players.indexOf(event.target);
 	event.target.seekTo(length*index, false);
 	event.target.setPlaybackQuality(quality);
+
+	//Progress bar
+	if(index == 0) {
+		$("#progress-bar").attr('max', players[0].getDuration()/n);
+	}
 	
 	if(mute) {
 		event.target.mute();
@@ -163,7 +153,7 @@ function onPlayerReady(event) {
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-		vars[key] = value;
+		vars[key] = value.replace(/#/g, "");
 	});
 	return vars;
 }
@@ -172,4 +162,35 @@ function youtube_parser(url){
 	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 	var match = url.match(regExp);
 	return (match&&match[7].length==11)? match[7] : false;
+}
+
+function initialize() {
+	//Progress bar
+	$("#progress-bar").on("change mouseup", function() {
+		var duration = players[0].getDuration()/n;
+		var value = $(this).val();
+		for(var i = 0; i < n; ++i) {
+			var newTime = Number(i*duration) + Number(value);
+			players[i].seekTo(Math.floor(newTime));
+		}
+	});
+
+	progressInterval = setInterval(function() {
+		$("#progress-bar").val(players[0].getCurrentTime());
+	}, 1000);
+
+	//Mute on hover video
+	$(document).on('mouseenter', 'iframe', function() {
+		if(!mute) return;
+
+		var index = $(this).attr('index');
+		players[index].unMute();
+	});
+
+	$(document).on('mouseleave', 'iframe', function() {
+		if(!mute) return;
+
+		var index = $(this).attr('index');
+		players[index].mute();
+	});
 }

@@ -15,3 +15,9 @@ body {
 .volume:hover {
 	color: #FFFFFF;
 }
+
+#progress-bar {
+	margin-top: 20px;
+	width: 500px;
+	margin-right: 40px;
+}
