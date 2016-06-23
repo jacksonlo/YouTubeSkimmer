@@ -13,6 +13,38 @@ var v = getVars['v'];
 var duration = 0;
 var videosDone = false;
 
+//General initializations
+$(document).ready(function() {
+	//Height and width adjustments
+	if(screen.width - 160 < width*n/2) {
+		width = Math.floor((screen.width - 160)/(n/2));
+	}
+
+	if(screen.height - 120 < height*n/2) {
+		height = Math.floor((screen.height - 120)/(n/2));
+	}
+
+	//Logo for fun
+	$("#logo").on('mouseenter', function() {
+		$(this).attr('src', 'images/logo.gif');
+	});
+
+	$("#logo").on("mouseleave", function() {
+		$(this).attr('src', 'images/logo.png');
+	});
+
+	//Quality and Speed dropdowns
+	$(".dropdown-menu li").on('click', function() {
+		$(this).addClass('active').siblings().removeClass('active');
+	});
+
+	//Submit form for new video
+	$("#video-form").on('submit', function() {
+		var input = $(this).find('[name="v"]');
+		input.val(youtubeParser(input.val()));
+	});
+})();
+
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
 	if(!(v === undefined)) {
@@ -31,15 +63,6 @@ function onYouTubeIframeAPIReady() {
 			});
 		}
 	}
-
-	//Logo for fun
-	$("#logo").on('mouseenter', function() {
-		$(this).attr('src', 'images/logo.gif');
-	});
-
-	$("#logo").on("mouseleave", function() {
-		$(this).attr('src', 'images/logo.png');
-	});
 
 	//Topbar play-pause button
 	$("#play-pause-button").on('click', function() {
@@ -87,24 +110,6 @@ function onYouTubeIframeAPIReady() {
 		}
 	});
 
-	//Toggle controls button
-	// $("#toggle-controls-button").on('click', function() {
-	// 	for(var i = 0; i < n; ++i) {
-	// 		players[i].
-	// 	}
-	// });
-
-	//Quality and Speed dropdowns
-	$(".dropdown-menu li").on('click', function() {
-		$(this).addClass('active').siblings().removeClass('active');
-	});
-
-	//Submit form for new video
-	$("#video-form").on('submit', function() {
-		var input = $(this).find('[name="v"]');
-		input.val(youtube_parser(input.val()));
-	});
-
 	//Volume slider
 	$("#volume-slider").on("change mousemove", function() {
 		var volume = $(this).val();
@@ -120,6 +125,7 @@ var done = false;
 var progressInterval;
 var initialized = false;
 var vidoesDone = false;
+
 function onPlayerStateChange(event) {
 	if(event.data == YT.PlayerState.PLAYING) {
 		setPauseReady(true);
@@ -147,6 +153,8 @@ function onPlayerStateChange(event) {
 		}
 	}
 }
+
+//Stop all videos method
 function stopVideo() {
 	for(var i = 0; i < n; ++i) {
 		players[i].stopVideo();
@@ -154,7 +162,7 @@ function stopVideo() {
 	videosDone = true;
 }
 
-//On player ready method, set's video settings
+//On player ready method, sets video settings
 function onPlayerReady(event) {
 	event.target.setPlaybackRate(speed);
 	duration = Math.floor(event.target.getDuration()/n);
@@ -173,6 +181,7 @@ function onPlayerReady(event) {
 
 }
 
+//Get's GET URL vars
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -181,12 +190,14 @@ function getUrlVars() {
 	return vars;
 }
 
-function youtube_parser(url){
+//Parses YouTube URL for video id
+function youtubeParser(url){
 	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 	var match = url.match(regExp);
 	return (match&&match[7].length==11)? match[7] : false;
 }
 
+//Prepares initial video player settings such as progress bar
 function initialize() {
 	//Progress bar
 	$("#progress-bar").on("change mouseup", function() {
@@ -217,6 +228,7 @@ function initialize() {
 	});
 }
 
+//Sets the videos to be ready to play (pauses them all)
 function setPlayReady(justIcons) {
 	justIcons = justIcons || false;
 
@@ -233,6 +245,7 @@ function setPlayReady(justIcons) {
 	icon.attr('src', 'images/play.png');
 }
 
+//Sets the videos to be pause ready (plays them all)
 function setPauseReady(justIcons) {
 	justIcons = justIcons || false;
 
