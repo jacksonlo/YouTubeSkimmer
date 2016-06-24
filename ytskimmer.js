@@ -12,18 +12,16 @@ var controls = getVars['controls'] ? getVars['controls'] : 0;
 var v = getVars['v'];
 var duration = 0;
 var videosDone = false;
+var videoRatio = {x: 16, y: 10};
 
 //General initializations
 $(document).ready(function() {
 	//Height and width adjustments
-	if(screen.width - 160 < width*n/2) {
-		width = Math.floor((screen.width - 160)/(n/2));
-	}
-
-	if(screen.height - 120 < height*n/2) {
-		height = Math.floor((screen.height - 120)/(n/2));
-	}
-
+	$("#fit-to-screen").on('click', function() {
+		adjustVideoSize();
+		window.location.assign(window.location.href + "&h=" + height + "&w=" + width);
+	});
+	
 	//Logo for fun
 	$("#logo").on('mouseenter', function() {
 		$(this).attr('src', 'images/logo.gif');
@@ -43,7 +41,7 @@ $(document).ready(function() {
 		var input = $(this).find('[name="v"]');
 		input.val(youtubeParser(input.val()));
 	});
-})();
+});
 
 //Create video embed iframes accordingly when ready
 function onYouTubeIframeAPIReady() {
@@ -264,4 +262,27 @@ function setPauseReady(justIcons) {
 	}
 	title.text('Pause');
 	icon.attr('src', 'images/pause.png');
+}
+
+// With the current screen size and "n" videos, sets the height and widht of videos
+// in order to properly maximize the videos
+function adjustVideoSize() {
+	var x = screen.width;
+	var y = screen.height;
+	var factor = Math.sqrt( ((x * y)/n) / (videoRatio.x * videoRatio.y));
+	var newWidth = factor*videoRatio.x;
+	var newHeight = factor*videoRatio.y;
+
+	//Adjust width and height to a whole number for most ratios
+	var ratio = (Math.ceil(x/newWidth) * newWidth)/x;
+
+	newWidth = newWidth / ((Math.ceil(x/newWidth) * newWidth)/x);
+	newHeight = newHeight / ((Math.ceil(y/newHeight) * newHeight)/y);
+
+	//Re-round to nearest ratio and adjust for window size and navbar
+	var windowAdjust = ($(window).height() - 80) / y;
+	newHeight = newHeight * windowAdjust;
+	newWidth = newWidth  - videoRatio.x * 2;
+	width = Math.floor(newWidth / videoRatio.x) * videoRatio.x;
+	height = Math.floor(newHeight / videoRatio.y) * videoRatio.y;
 }
