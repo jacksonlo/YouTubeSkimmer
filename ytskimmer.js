@@ -18,6 +18,10 @@ var videoRatio = {x: 16, y: 10};
 $(document).ready(function() {
 	//Height and width adjustments
 	$("#fit-to-screen").on('click', function() {
+		if(v === undefined) {
+			alert("Please submit a YouTube URL first!");
+			return;
+		}
 		adjustVideoSize();
 		window.location.assign(window.location.href + "&h=" + height + "&w=" + width);
 	});
@@ -280,9 +284,21 @@ function adjustVideoSize() {
 	newHeight = newHeight / ((Math.ceil(y/newHeight) * newHeight)/y);
 
 	//Re-round to nearest ratio and adjust for window size and navbar
-	var windowAdjust = ($(window).height() - 80) / y;
-	newHeight = newHeight * windowAdjust;
-	newWidth = newWidth  - videoRatio.x * 2;
+	var navbarH;
+	var windowWidth = $(window).width();
+	var windowHeight = $(window).height();
+	if(windowWidth < 768 || windowWidth >= 1400) {
+		navbarH = 80;
+	} else if (windowWidth < 881) {
+		navbarH = 80 * 3;
+	} else if(windowWidth < 1400) {
+		navbarH = 80 * 2;
+	}
+
+	var windowAdjustY = (windowHeight - navbarH) / y;
+	var windowAdjustX = (windowWidth - 20) / x;
+	newHeight = newHeight * windowAdjustY;
+	newWidth = (newWidth  - videoRatio.x * 2) * windowAdjustX;
 	width = Math.floor(newWidth / videoRatio.x) * videoRatio.x;
 	height = Math.floor(newHeight / videoRatio.y) * videoRatio.y;
 }
