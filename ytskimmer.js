@@ -110,20 +110,27 @@ function onYouTubeIframeAPIReady() {
 	$("#mute-button").on('click', function() {
 		var title = $(this).find(".media-title");
 		var icon = $(this).find(".media-icon");
-		if(title.text() == "Mute") {
-			muteOn = true;
-			for(var i = 0; i < n; ++i) {
-				players[i].mute();
-			}
-			title.text("Unmute");
-			icon.attr('src', "images/mute.png");
-		} else {
-			muteOn = false;
+		if(mute == 1) {
+			mute = 0;
 			for(var i = 0; i < n; ++i) {
 				players[i].unMute();
 			}
-			title.text("Mute");
+			title.text("Mute All");
+			icon.attr('src', "images/mute.png");
+		} else if(mute == 2) {
+			mute = 1;
+			for(var i = 0; i < n; ++i) {
+				players[i].mute();
+			}
+			title.text("UnMute All");
 			icon.attr('src', "images/unmute.png");
+		} else {
+			mute = 2;
+			for(var i = 0; i < n; ++i) {
+				players[i].mute();
+			}
+			title.text("UnMute on Hover");
+			icon.attr('src', "images/unmute_hover.png");
 		}
 	});
 
@@ -231,14 +238,14 @@ function initialize() {
 
 	//Mute on hover video
 	$(document).on('mouseenter', 'iframe', function() {
-		if(!mute) return;
+		if(mute != 1) return;
 
 		var index = $(this).attr('index');
 		players[index].unMute();
 	});
 
 	$(document).on('mouseleave', 'iframe', function() {
-		if(!mute) return;
+		if(mute != 1) return;
 
 		var index = $(this).attr('index');
 		players[index].mute();
