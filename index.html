@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>YT Skimmer</title>
+	<title>YouTube Skimmer</title>
+	<meta name="Description" content="Multi-screens & Enhanced Video Controls for watching and Skimming Youtube videos." />
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="styles.css"/>
 	
@@ -59,7 +60,8 @@
 			</li>
 			<li class="media-control">
 				<div class="media-title">Volume: <span id="volume-value">100</span></div>
-				<div><input id="volume-slider" value="100" type="range" min="0" max="100"></div></li>
+				<div><input id="volume-slider" value="100" type="range" min="0" max="100"></div>
+			</li>
 		  </ul>
 		  <form id="video-form" class="navbar-form navbar-left" role="search" action="index.html" method="GET">
 			<div class="form-group">
@@ -69,7 +71,7 @@
 		  </form>
 		  <ul class="nav navbar-nav navbar-right">
 		  	<li><input id="progress-bar" type="range" value="0" min="0"></li>
-		  	<li><a href="#"><button id="fit-to-screen">Fit to Screen</button></a></li>
+		  	<li><button id="fit-to-screen" class="btn btn-default">Fit to Screen</button></li>
 			<li class="dropdown">
 			  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quality <span class="caret"></span></a>
 			  <ul id="quality-dropdown" class="dropdown-menu">
