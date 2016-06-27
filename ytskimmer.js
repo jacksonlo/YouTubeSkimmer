@@ -23,7 +23,22 @@ $(document).ready(function() {
 			return;
 		}
 		adjustVideoSize();
-		window.location.assign(window.location.href + "&h=" + height + "&w=" + width);
+
+		var newURL = location.protocol + '//' + location.host + location.pathname;
+		var settings = getUrlVars();
+		newURL += "?v=" + settings['v'];
+		settings['h'] = height;
+		settings['w'] = width;
+
+		//Set all settings but video
+		for(var q in settings) {
+			if (settings.hasOwnProperty(q)) {
+				if(q == "v") continue;
+
+				newURL += "&" + q + "=" + settings[q];
+			}
+		}
+		window.location.assign(newURL);
 	});
 	
 	//Logo for fun
