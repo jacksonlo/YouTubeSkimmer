@@ -75,8 +75,7 @@ function onYouTubeIframeAPIReady() {
 				playerVars: { 
 					'autoplay': 0, 
 					'controls': controls, 
-					'rel': 0, 
-					'origin': "https://jacksonlo.github.io/YouTubeSkimmer/index.html",
+					'rel': 0
 				},
 				events: {
 					'onReady': onPlayerReady,
