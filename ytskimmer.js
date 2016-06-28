@@ -72,7 +72,12 @@ function onYouTubeIframeAPIReady() {
 				height: height,
 				width: width,
 				videoId: getVars['v'] ? getVars['v'] : '_L9WuoFxy-8',
-				playerVars: { 'autoplay': 0, 'controls': controls, 'rel': 0 },
+				playerVars: { 
+					'autoplay': 0, 
+					'controls': controls, 
+					'rel': 0, 
+					'origin': "https://jacksonlo.github.io/YouTubeSkimmer/index.html",
+				},
 				events: {
 					'onReady': onPlayerReady,
 					'onStateChange': onPlayerStateChange
